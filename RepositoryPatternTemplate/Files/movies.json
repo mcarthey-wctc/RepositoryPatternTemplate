@@ -1,0 +1,10 @@
+[
+  {
+    "Id": 1,
+    "Title": "New Movie",
+    "Genres": [
+      "Action",
+      "Adventure"
+    ]
+  }
+]
