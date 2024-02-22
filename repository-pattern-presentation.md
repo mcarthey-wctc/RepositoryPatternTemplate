@@ -15,10 +15,6 @@ style: |
 # Overview of the Repository Pattern
 - **Definition:** A design pattern that separates data access logic from business logic, providing a more abstract interface for data operations.
 - **Purpose:** To abstract the data layer, allowing for more flexible data access and easier testing.
-- **Benefits:**
-  - **Decoupling:** Reduces dependencies between different parts of the application.
-  - **Testability:** Allows for easier unit testing of business logic by mocking data access.
-  - **Maintainability:** Simplifies maintenance by centralizing data access logic.
 - **Use Cases:** Ideal for applications with complex data access requirements or when using multiple data sources.
 
 
@@ -40,6 +36,228 @@ style: |
 - **Concrete Repository:** Implements the interface
 - **Data Source:** The storage mechanism (e.g., database)
 
+---
+
+# Writing Testable Code
+### How it Makes You a Better Coder
+
+---
+
+# Modular Design
+- **Testability leads to modularity.**
+- **Benefits:**
+  - Easier to understand
+  - Easier to maintain
+  - Easier to test
+
+---
+
+# Clearer Interfaces
+- **Designing for testability creates clearer interfaces.**
+- **Benefits:**
+  - Reduces coupling
+  - Increases flexibility
+  - Simplifies future changes
+
+---
+
+# Reduced Complexity
+- **Testable code is less complex.**
+- **Benefits:**
+  - Breaks code into manageable pieces
+  - Simplifies the overall system
+
+---
+
+# Improved Code Quality
+- **Writing testable code enhances quality.**
+- **Benefits:**
+  - Encourages focused functions and classes
+  - Easier to understand and maintain
+  - Easier to debug
+
+---
+
+# Easier Debugging
+- **Testable code is easier to debug.**
+- **Benefits:**
+  - Isolates specific code parts in tests
+  - Simplifies identifying and fixing problems
+
+---
+
+# Refactoring Safety
+- **Testable code is safer to refactor.**
+- **Benefits:**
+  - Comprehensive tests catch regressions
+  - Changes can be made with confidence
+
+---
+
+# Applying Testability to SOLID Principles
+
+---
+
+# Single Responsibility Principle (SRP)
+- **Modular Design:** Each class has a single responsibility.
+- **Testability:** Easier to write tests for a focused class.
+- **Example:**
+<style scoped>
+pre {
+  font-size: 14px;
+}
+</style>
+  ```csharp
+  // Good: Single responsibility
+  public class OrderProcessor
+  {
+      public void ProcessOrder(Order order) { /* ... */ }
+  }
+
+  // Bad: Multiple responsibilities
+  public class OrderProcessor
+  {
+      public void ProcessOrder(Order order) { /* ... */ }
+      public void GenerateInvoice(Order order) { /* ... */ }
+  }
+```
+---
+
+# Open/Closed Principle (OCP)
+- **Clearer Interfaces:** Designing for extension rather than modification leads to clearer interfaces and reduced coupling.
+- **Testability:** Changes can be made by adding new code, not modifying existing code, preserving test integrity.
+
+- **Example:**
+<style scoped>
+pre {
+  font-size: 14px;
+}
+</style>
+  ```csharp
+  // Good: Open for extension
+  public abstract class Shape
+  {
+      public abstract double Area();
+  }
+
+  public class Circle : Shape
+  {
+      public double Radius { get; set; }
+      public override double Area() => Math.PI * Radius * Radius;
+  }
+
+  // Bad: Closed for extension
+  public class Shape
+  {
+      public double Width { get; set; }
+      public double Height { get; set; }
+      public double Area() => Width * Height;
+  }
+```
+---
+
+# Liskov Substitution Principle (LSP)
+- **Reduced Complexity:** Subtypes should be substitutable for their base types without altering the correctness of the program.
+- **Testability:** Ensures that tests for the base type are valid for subtypes, simplifying testing.
+- **Example:**
+<style scoped>
+pre {
+  font-size: 14px;
+}
+</style>
+  ```csharp
+  // Good: Substitutable
+  public class Bird
+  {
+      public virtual void Fly() { /* ... */ }
+  }
+
+  public class Duck : Bird { /* ... */ }
+
+  // Bad: Not substitutable
+  public class Bird
+  {
+      public void Fly() { /* ... */ }
+  }
+
+  public class Ostrich : Bird
+  {
+      public new void Fly()
+      {
+          throw new NotSupportedException("Ostriches can't fly!");
+      }
+  }
+```
+---
+
+# Interface Segregation Principle (ISP)
+- **Modular Design:** Clients should not be forced to depend on interfaces they do not use, promoting modularity.
+- **Testability:** Smaller, focused interfaces are easier to mock and test.
+- **Example:**
+<style scoped>
+pre {
+  font-size: 14px;
+}
+</style>
+  ```csharp
+  // Good: Segregated interfaces
+  public interface IPrinter
+  {
+      void Print(Document d);
+  }
+
+  public interface IScanner
+  {
+      void Scan(Document d);
+  }
+
+  // Bad: Fat interface
+  public interface IMachine
+  {
+      void Print(Document d);
+      void Scan(Document d);
+      void Fax(Document d);
+  }
+```
+---
+
+# Dependency Inversion Principle (DIP)
+- **Clearer Interfaces:** High-level modules should not depend on low-level modules, but on abstractions.
+- **Testability:** Dependency inversion facilitates the use of test doubles (e.g., mocks, stubs) for dependencies.
+- **Example:**
+<style scoped>
+pre {
+  font-size: 12px;
+}
+</style>
+  ```csharp
+  // Good: Dependency inversion
+  public interface IRepository
+  {
+      void Save(object data);
+  }
+
+  public class DataManager
+  {
+      private readonly IRepository _repository;
+
+      public DataManager(IRepository repository)
+      {
+          _repository = repository;
+      }
+  }
+
+  // Bad: High-level module depends on low-level module
+  public class DataManager
+  {
+      private readonly FileRepository _repository;
+
+      public DataManager()
+      {
+          _repository = new FileRepository();
+      }
+  }
+```
 ---
 
 # Repository Pattern in Action (Interface)
@@ -120,12 +338,12 @@ Usage in Application: Inject the repository into services or controllers.
 ---
 
 # How We Implement
-# Step 2: Adding a Repository
+# Step 2: Using only a context (data access class)
 - **Issue:** Main program becomes messy and hard to maintain.
 - **Example Code:**
   ```csharp
-  var repository = new MovieRepository();
-  var movies = repository.GetAllMovies();
+  var context = new MovieContext();
+  var movies = context.GetAllMovies();
   foreach (var movie in movies)
   {
       Console.WriteLine(movie.Title);
@@ -134,12 +352,12 @@ Usage in Application: Inject the repository into services or controllers.
 ---
 
 # How We Implement
-# Step 3: Introducing a Context
+# Step 3: Introducing a Repository
 - **Solution:** Clean up the main method by abstracting data operations.
 - **Example Code:**
   ```csharp
-  var context = new MovieContext(new MovieRepository());
-  var movies = context.GetAllMovies();
+  var repo = new MovieRepository(new MovieContext());
+  var movies = repository.GetAllMovies();
   foreach (var movie in movies)
   {
       Console.WriteLine(movie.Title);
