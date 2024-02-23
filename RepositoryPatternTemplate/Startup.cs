@@ -28,13 +28,14 @@ internal class Startup
 
         // Register interfaces and their concrete implementations
         services.AddTransient<IMainService, MainService>();
-        services.AddTransient<IMovieContext, MovieContext>();
+        services.AddTransient<IMovieRepository, MovieRepository>();
 
         // Alternative way to register FileMovieRepository with a specific file path
         //services.AddTransient<IMovieRepository, FileMovieRepository>();
-        services.AddTransient<IMovieRepository>(serviceProvider => new FileMovieRepository("Files/movies.json"));
+        services.AddTransient<IMovieContext>(serviceProvider => new FileMovieContext("Files/movies.json"));
 
 
         return services.BuildServiceProvider();
     }
 }
+ 

@@ -1,18 +1,18 @@
 using Moq;
 using RepositoryPatternTemplate.Models;
-using RepositoryPatternTemplate.Context;
 using RepositoryPatternTemplate.Services;
+using RepositoryPatternTemplate.Repository;
 
 namespace RepositoryPatternTemplate.Tests
 {
     public class RepositoryPatternTemplateUnitTests
     {
-        private readonly Mock<IMovieContext> _mockMovieContext;
+        private readonly Mock<IMovieRepository> _mockMovieContext;
         private readonly MainService _mainService;
 
         public RepositoryPatternTemplateUnitTests()
         {
-            _mockMovieContext = new Mock<IMovieContext>();
+            _mockMovieContext = new Mock<IMovieRepository>();
             _mainService = new MainService(_mockMovieContext.Object);
         }
 

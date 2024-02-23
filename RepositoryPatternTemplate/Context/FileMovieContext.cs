@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using RepositoryPatternTemplate.Models;
 
-namespace RepositoryPatternTemplate.Repository;
+namespace RepositoryPatternTemplate.Context;
 
-public class FileMovieRepository : IMovieRepository
+public class FileMovieContext : IMovieContext
 {
     private readonly string _filePath;
 
-    public FileMovieRepository(string filePath)
+    public FileMovieContext(string filePath)
     {
         _filePath = filePath;
 

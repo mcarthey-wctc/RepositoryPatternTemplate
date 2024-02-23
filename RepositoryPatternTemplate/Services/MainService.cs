@@ -1,15 +1,15 @@
 ﻿using RepositoryPatternTemplate.Models;
-using RepositoryPatternTemplate.Context;
+using RepositoryPatternTemplate.Repository;
 
 namespace RepositoryPatternTemplate.Services
 {
     public class MainService : IMainService
     {
-        private readonly IMovieContext _movieContext;
+        private readonly IMovieRepository _movieRepository;
 
-        public MainService(IMovieContext movieContext)
+        public MainService(IMovieRepository movieRepository)
         {
-            _movieContext = movieContext;
+            _movieRepository = movieRepository;
         }
 
         public void Invoke()
@@ -22,7 +22,7 @@ namespace RepositoryPatternTemplate.Services
                 Genres = new List<string> { "Action", "Adventure" }
             };
 
-            _movieContext.AddMovie(newMovie);
+            _movieRepository.AddMovie(newMovie);
         }
     }
 }

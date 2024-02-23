@@ -1,45 +1,45 @@
+using RepositoryPatternTemplate.Context;
 using RepositoryPatternTemplate.Models;
-using RepositoryPatternTemplate.Repository;
 
-namespace RepositoryPatternTemplate.Context
+namespace RepositoryPatternTemplate.Repository
 {
-    public class MovieContext : IMovieContext
+    public class MovieRepository : IMovieRepository
     {
-        private readonly IMovieRepository _movieRepository;
+        private readonly IMovieContext _movieContext;
 
-        public MovieContext(IMovieRepository movieRepository)
+        public MovieRepository(IMovieContext movieContext)
         {
-            _movieRepository = movieRepository;
+            _movieContext = movieContext;
         }
 
         public void AddMovie(Movie movie)
         {
-            _movieRepository.AddMovie(movie);
+            _movieContext.AddMovie(movie);
             Console.WriteLine("Added movie: " + movie.Title);
         }
 
         public Movie GetMovie(long id)
         {
-            var retrievedMovie = _movieRepository.GetMovie(id);
+            var retrievedMovie = _movieContext.GetMovie(id);
             Console.WriteLine("Retrieved movie: " + retrievedMovie.Title);
             return retrievedMovie;
         }
 
         public void UpdateMovie(Movie movie)
         {
-            _movieRepository.UpdateMovie(movie);
+            _movieContext.UpdateMovie(movie);
             Console.WriteLine("Updated movie genres: " + string.Join(", ", movie.Genres));
         }
 
         public void DeleteMovie(long id)
         {
-            _movieRepository.DeleteMovie(id);
+            _movieContext.DeleteMovie(id);
             Console.WriteLine("Deleted movie with ID " + id);
         }
 
         public List<Movie> GetAllMovies()
         {
-            var allMovies = _movieRepository.GetAllMovies();
+            var allMovies = _movieContext.GetAllMovies();
             Console.WriteLine("All movies:");
             foreach (var m in allMovies)
             {
