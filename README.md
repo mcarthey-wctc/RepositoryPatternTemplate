@@ -37,7 +37,7 @@ Your assignment will be evaluated based on the following criteria:
 
 ## Submission
 
-Please submit your completed `FileMovieRepository.cs` file by the due date. Good luck!
+Please submit your completed `FileMovieContext.cs` file by the due date. Good luck!
 
 ## Resources
 
